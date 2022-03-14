@@ -10,24 +10,17 @@ import com.example.mp3pert1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    //fragment
-    lateinit var binding: ActivityMainBinding
-
+    private lateinit var btnFragmentOne: Button
+    private lateinit var btnFragmentTwo: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        //fragment
-        binding.Fragmentbtn1.setOnClickListener {
+        btnFragmentOne = findViewById(R.id.Fragmentbtn1)
+        btnFragmentTwo = findViewById(R.id.Fragmentbtn2)
 
-            replaceFragment(FragmentOne())
-        }
-        binding.Fragmentbtn2.setOnClickListener {
-            replaceFragment(FragmentTwo())
-        }
-
+        handleFragment()
         val Secondbtn = findViewById<Button>(R.id.SecondActivityBtn)
         Secondbtn.setOnClickListener {
             val Intent = Intent(this, MainActivityTwo::class.java)
@@ -40,11 +33,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun handleFragment() {
+        val fragmentone = FragmentOne()
+        val fragmenttwo = FragmentTwo()
 
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment)
-        fragmentTransaction.commit()
+
+        btnFragmentOne.setOnClickListener {
+            replaceFragment(fragmentone)
+        }
+        btnFragmentTwo.setOnClickListener {
+            replaceFragment(fragmenttwo)
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commitNow()
     }
 }
